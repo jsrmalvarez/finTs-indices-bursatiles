@@ -1,6 +1,8 @@
 import { mountChart, type ChartHandle } from '../chart/renderChart';
 import {
+  computeDrawdownSessionStats,
   computeDrawdownZones,
+  formatDrawdownSessionsStat,
   formatDrawdownTooltip,
 } from '../data/drawdowns';
 import { computeStats, formatClose, formatDate } from '../data/process';
@@ -58,6 +60,7 @@ export function createApp(root: HTMLElement): void {
                 step="1"
                 value="${DEFAULT_DRAWDOWN_PCT}"
               />
+              <p class="drawdown-sessions" id="drawdown-sessions"></p>
             </div>
           </aside>
         </div>
@@ -101,6 +104,7 @@ export function createApp(root: HTMLElement): void {
   const bandsLayer = root.querySelector<HTMLElement>('#chart-bands')!;
   const slider = root.querySelector<HTMLInputElement>('#drawdown-n')!;
   const sliderValue = root.querySelector<HTMLElement>('#drawdown-n-value')!;
+  const sessionsStat = root.querySelector<HTMLElement>('#drawdown-sessions')!;
   const helpBtn = root.querySelector<HTMLButtonElement>('#drawdown-help')!;
   const tooltip = root.querySelector<HTMLElement>('#drawdown-tooltip')!;
   const chart: ChartHandle = mountChart(chartHost, bandsLayer);
@@ -114,9 +118,15 @@ export function createApp(root: HTMLElement): void {
 
   function refreshDrawdownUi(): void {
     const n = drawdownPercent();
-    sliderValue.textContent = `${n}${labels.drawdownPercentSuffix}`;
+    sliderValue.textContent = `${labels.drawdownLossLabel}: ${n}%`;
     tooltip.textContent = formatDrawdownTooltip(labels.drawdownTooltip, n);
-    chart.setZones(computeDrawdownZones(currentBars, n));
+    const zones = computeDrawdownZones(currentBars, n);
+    chart.setZones(zones);
+    const sessionStats = computeDrawdownSessionStats(currentBars, zones);
+    sessionsStat.textContent = formatDrawdownSessionsStat(
+      labels.drawdownSessionsStat,
+      sessionStats,
+    );
   }
 
   async function showIndex(id: IndexId): Promise<void> {

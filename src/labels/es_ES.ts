@@ -25,7 +25,10 @@ export const labels = {
   drawdownTooltip:
     'En gris se marcan los periodos en los que el índice ha bajado un {n}% o más desde el máximo histórico anterior',
   drawdownSliderLabel: 'Umbral de pérdida',
-  drawdownPercentSuffix: ' %',
+  /** Prefijo del valor del control, p. ej. «Pérdida: 10%». */
+  drawdownLossLabel: 'Pérdida',
+  /** Plantilla bajo el slider: `{count}` sesiones, `{pct}` entero. */
+  drawdownSessionsStat: 'Sesiones: {count} ({pct}% del tiempo)',
   indices: {
     sp500: 'S&P 500',
     djia: 'Dow Jones (DJIA)',

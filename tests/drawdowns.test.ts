@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
+  computeDrawdownSessionStats,
   computeDrawdownZones,
+  formatDrawdownSessionsStat,
   formatDrawdownTooltip,
 } from '../src/data/drawdowns';
 import type { DailyBar } from '../src/data/types';
@@ -73,5 +75,33 @@ describe('formatDrawdownTooltip', () => {
     expect(formatDrawdownTooltip('bajado un {n}% o más', 5)).toBe(
       'bajado un 5% o más',
     );
+  });
+});
+
+describe('computeDrawdownSessionStats', () => {
+  it('cuenta sesiones en zonas y redondea el porcentaje a entero', () => {
+    const data = bars([
+      ['2003-05-08', 100],
+      ['2003-05-09', 94],
+      ['2003-05-10', 96],
+      ['2003-05-11', 93],
+      ['2003-05-12', 101],
+    ]);
+    const zones = computeDrawdownZones(data, 5);
+    expect(computeDrawdownSessionStats(data, zones)).toEqual({
+      inZones: 2,
+      total: 5,
+      percentOfTime: 40,
+    });
+  });
+
+  it('formatea la etiqueta de sesiones', () => {
+    expect(
+      formatDrawdownSessionsStat('Sesiones: {count} ({pct}% del tiempo)', {
+        inZones: 1238,
+        total: 4000,
+        percentOfTime: 32,
+      }),
+    ).toBe('Sesiones: 1238 (32% del tiempo)');
   });
 });

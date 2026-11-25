@@ -68,3 +68,55 @@ export function computeDrawdownZones(
 export function formatDrawdownTooltip(template: string, nPercent: number): string {
   return template.replaceAll('{n}', String(nPercent));
 }
+
+/** Cuenta sesiones cuya fecha cae dentro de alguna zona (inclusive). */
+export function countDrawdownSessions(
+  bars: DailyBar[],
+  zones: DrawdownZone[],
+): number {
+  if (bars.length === 0 || zones.length === 0) {
+    return 0;
+  }
+
+  let count = 0;
+  let zoneIndex = 0;
+
+  for (const bar of bars) {
+    while (zoneIndex < zones.length && bar.date > zones[zoneIndex]!.end) {
+      zoneIndex += 1;
+    }
+    const zone = zones[zoneIndex];
+    if (zone && bar.date >= zone.start && bar.date <= zone.end) {
+      count += 1;
+    }
+  }
+
+  return count;
+}
+
+export interface DrawdownSessionStats {
+  inZones: number;
+  total: number;
+  /** Entero 0–100. */
+  percentOfTime: number;
+}
+
+export function computeDrawdownSessionStats(
+  bars: DailyBar[],
+  zones: DrawdownZone[],
+): DrawdownSessionStats {
+  const total = bars.length;
+  const inZones = countDrawdownSessions(bars, zones);
+  const percentOfTime = total === 0 ? 0 : Math.round((100 * inZones) / total);
+  return { inZones, total, percentOfTime };
+}
+
+/** Sustituye `{count}` y `{pct}` en la plantilla de sesiones (enteros). */
+export function formatDrawdownSessionsStat(
+  template: string,
+  stats: DrawdownSessionStats,
+): string {
+  return template
+    .replaceAll('{count}', String(stats.inZones))
+    .replaceAll('{pct}', String(stats.percentOfTime));
+}

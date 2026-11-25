@@ -204,6 +204,13 @@ select {
   cursor: pointer;
 }
 
+.drawdown-sessions {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--ink-muted);
+  line-height: 1.35;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
