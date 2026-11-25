@@ -91,7 +91,9 @@ async function fetchWithRetry(url: string, attempts = 8): Promise<Response> {
 
 async function downloadSymbol(symbol: string): Promise<string> {
   const period1 = toUnix(START_DATE);
-  const period2 = toUnix(END_DATE) + 24 * 3600 - 1;
+  // Fin exclusivo del día siguiente en UTC para no perder la sesión del END_DATE
+  // (p. ej. cierre USA 31-dic a las 14:30Z).
+  const period2 = toUnix(END_DATE) + 24 * 3600;
   const response = await fetchWithRetry(chartUrl(symbol, period1, period2));
 
   if (!response.ok) {

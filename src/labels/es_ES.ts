@@ -1,7 +1,11 @@
 /** Etiquetas de interfaz en español de España (es_ES). */
 export const labels = {
-  appTitle: 'Índices bursátiles',
-  appSubtitle: 'Series diarias históricas hasta el último año cerrado',
+  /** Nombre completo accesible / <title>. */
+  appTitle: 'Financial Transurfing',
+  /** Línea 1 de marca (Lato, mayúsculas como en el logo). */
+  brandFinancial: 'FINANCIAL',
+  /** Línea 2 de marca (Satisfy, capitalización del logo). */
+  brandTransurfing: 'Transurfing',
   selectIndex: 'Índice',
   selectIndexHint: 'Elige un índice para mostrar su cotización diaria de cierre',
   loading: 'Cargando datos…',

@@ -8,7 +8,6 @@ import {
   type Time,
 } from 'lightweight-charts';
 import type { DailyBar } from '../data/types';
-import { labels } from '../labels/es_ES';
 
 export interface ChartHandle {
   update(bars: DailyBar[]): void;
@@ -38,7 +37,7 @@ export function mountChart(container: HTMLElement): ChartHandle {
     layout: {
       background: { type: ColorType.Solid, color: CHART_COLORS.background },
       textColor: CHART_COLORS.text,
-      fontFamily: 'Figtree, system-ui, sans-serif',
+      fontFamily: 'Lato, system-ui, sans-serif',
     },
     grid: {
       vertLines: { color: CHART_COLORS.grid },
@@ -78,8 +77,7 @@ export function mountChart(container: HTMLElement): ChartHandle {
     bottomColor: CHART_COLORS.areaBottom,
     lineWidth: 2,
     priceLineVisible: false,
-    lastValueVisible: true,
-    title: labels.chartClose,
+    lastValueVisible: false,
   });
 
   return {

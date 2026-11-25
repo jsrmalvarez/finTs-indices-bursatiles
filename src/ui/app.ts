@@ -10,22 +10,23 @@ export function createApp(root: HTMLElement): void {
   root.innerHTML = `
     <div class="shell">
       <header class="hero">
-        <h1 class="brand">${labels.appTitle}</h1>
-        <p class="subtitle">${labels.appSubtitle}</p>
+        <h1 class="brand" aria-label="${labels.appTitle}">
+          <span class="brand-financial">${labels.brandFinancial}</span>
+          <span class="brand-transurfing">${labels.brandTransurfing}</span>
+        </h1>
       </header>
 
       <section class="panel" aria-label="${labels.appTitle}">
         <div class="controls">
           <div class="field">
             <label for="index-select">${labels.selectIndex}</label>
-            <select id="index-select" aria-describedby="index-hint">
+            <select id="index-select">
               ${INDEX_CATALOG.map(
                 (item) =>
                   `<option value="${item.id}">${labels.indices[item.id]}</option>`,
               ).join('')}
             </select>
           </div>
-          <p class="hint" id="index-hint">${labels.selectIndexHint}</p>
         </div>
 
         <dl class="stats" id="stats" hidden>
