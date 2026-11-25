@@ -19,6 +19,13 @@ export const labels = {
   chartClose: 'Cierre',
   chartDate: 'Fecha',
   footerNote: 'Datos históricos diarios. Sin cotización en tiempo real.',
+  drawdownTitle: 'Pérdidas desde máximos históricos',
+  drawdownHelpAria: 'Qué significan las zonas grises',
+  /** Plantilla: `{n}` se sustituye por el porcentaje del control. */
+  drawdownTooltip:
+    'En gris se marcan los periodos en los que el índice ha bajado un {n}% o más desde el máximo histórico anterior',
+  drawdownSliderLabel: 'Umbral de pérdida',
+  drawdownPercentSuffix: ' %',
   indices: {
     sp500: 'S&P 500',
     djia: 'Dow Jones (DJIA)',
